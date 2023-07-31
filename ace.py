@@ -52,7 +52,7 @@ class AdaptiveCrossentropy(tf.keras.losses.Loss):
                 sum_over_batch_size: Reduce sum to one value using all axis.
         """
         super().__init__(reduction=tf.keras.losses.Reduction.NONE, name=name)
-        self.eps = tf.constant(1e-7)
+        self.eps = 1e-7
         self.alpha = alpha
         self.gamma = gamma
         self.label_smoothing = label_smoothing
