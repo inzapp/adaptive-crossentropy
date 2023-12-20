@@ -78,10 +78,12 @@ class AdaptiveCrossentropy(tf.keras.losses.Loss):
         y_true_clip = tf.clip_by_value(y_true, self.label_smoothing, 1.0 - self.label_smoothing)
         y_pred_clip = tf.clip_by_value(y_pred, eps, 1.0 - eps)
         loss = -((y_true * tf.math.log(y_pred + eps)) + ((1.0 - y_true) * tf.math.log(1.0 - y_pred + eps)))
-        if self.gamma >= 1.0:
+        if self.alpha > 0.0:
             alpha = tf.ones_like(y_true) * self.alpha
             alpha = tf.where(y_true != 1.0, alpha, 1.0 - alpha)
-            adaptive_weight = tf.pow(tf.abs(y_true_clip - y_pred_clip), self.gamma) * alpha
+            loss *= alpha
+        if self.gamma >= 1.0:
+            adaptive_weight = tf.pow(tf.abs(y_true_clip - y_pred_clip), self.gamma)
             loss *= adaptive_weight
         if self.reduce == 'mean':
             loss = tf.reduce_mean(loss)
