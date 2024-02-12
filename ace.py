@@ -36,7 +36,7 @@ class AdaptiveCrossentropy(tf.keras.losses.Loss):
     Usage:
         model.compile(optimizer='sgd', loss=AdaptiveCrossentropy())
     """
-    def __init__(self, alpha=0.5, gamma=0.0, label_smoothing=0.0, reduce='none', name='AdaptiveCrossentropy'):
+    def __init__(self, alpha=0.0, gamma=0.0, label_smoothing=0.0, reduce='none', name='AdaptiveCrossentropy'):
         """
         Args:
             alpha: Weight of the loss where not positive value positioned in y_true tensor.
